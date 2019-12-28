@@ -95,8 +95,9 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"https://yicview.cleverapps.io"},
-		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+		AllowOrigins:     []string{"https://yicview.cleverapps.io"},
+		AllowCredentials: true,
+		AllowMethods:     []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 	}))
 	g := e.Group("/ui", auth.Middleware(auth.NewValidHTTP(viper.GetString("AUTH_CHECK_URI")), auth.Roles{"ui": "rw"}))
 	g.GET("/_health", func(c echo.Context) error { return c.NoContent(http.StatusOK) })
